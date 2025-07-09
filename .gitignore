@@ -1,0 +1,27 @@
+# Ignore node_modules and build output across all services
+**/node_modules/
+**/dist/
+**/.turbo/
+**/.next/
+
+# Ignore dotenv files (secrets, env configs)
+**/.env
+**/.env.*
+
+# OS-generated files
+.DS_Store
+Thumbs.db
+
+# Editor/IDE files
+.vscode/
+.idea/
+*.log
+
+# Ignore lockfiles if you're using Yarn or want to avoid npm locks
+# (optional — comment out if you want to keep lockfiles)
+# yarn.lock
+# package-lock.json
+
+# Ignore coverage/test outputs
+**/coverage/
+**/test-output/
