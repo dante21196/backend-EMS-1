@@ -1,20 +1,21 @@
-// src/server.ts
+// src/config/server.ts
+import express from 'express';
+import { connectDB } from './db';
+import userRoutes from '../routes/userRoutes';
+import { testReqBody } from '../middlewares/testReqBody';
+export const startServer = async () => {
+  const app = express();
+  
+  app.use(express.json());
 
-import express, { Request, Response } from 'express';
+  // Routes
+  app.use('/users',testReqBody, userRoutes);
 
-const app = express();
-
-// Accepts any route and responds with a message
-app.use('/', (req: Request, res: Response) => {
-  res.json({
-    message: `Hello from Service 1! You hit ${req.originalUrl}`
+  app.use('/', (req, res) => {
+    res.json({ message: `User Service! You hit ${req.originalUrl}` });
   });
-});
 
-app.use('/sample', (req: Request, res: Response) => {
-  res.json({
-    message: `User Service! You hit ${req.originalUrl}`
-  });
-});
+  await connectDB();
 
-export default app;
+  return app;
+};

@@ -1,9 +1,16 @@
 // src/index.ts
+import { startServer } from './config/server';
+import dotenv from 'dotenv';
 
-import app from './config/server';
-
+dotenv.config();
 const PORT = 5001;
 
-app.listen(PORT, () => {
-  console.log(`Service 1 running at http://localhost:${PORT}`);
-});
+startServer()
+  .then((app) => {
+    app.listen(PORT, () => {
+      console.log(`👤 User service running at http://localhost:${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.error('🔥 Failed to start server:', err);
+  });
