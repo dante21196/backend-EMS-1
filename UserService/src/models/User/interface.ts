@@ -5,7 +5,7 @@ export interface IUser extends Document {
   name: string;
   email: string;
   password: string;
-  age: number;
+  role_id: number;
   isActive: boolean;
   createdAt: Date;
 }

@@ -34,7 +34,7 @@ export const registerCompany = async (req: Request, res: Response) => {
       isActive: true,
     }); 
     const company_id = company._id.toString();
-    const user = await createUser({ company_id, name, email, password });
+    const user = await createUser({ company_id, name, email, role_id: 1, password });
 
     const emailResponse = await sendEmail({
       to: email,

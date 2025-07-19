@@ -10,7 +10,7 @@ export const registerUser = async (req: Request, res: Response) => {
   try {
       console.log("Request body register user:", req.body)
 
-    const { name, email, password, age } = req.body;
+    const { name, email, password, role_id } = req.body;
 
     if (!name || !email || !password) {
       return errorResponse(res, 'Name, email, and password are required', 400);
@@ -21,7 +21,7 @@ export const registerUser = async (req: Request, res: Response) => {
       return errorResponse(res, 'Email already registered', 409);
     }
 
-    const user = await createUser({ name, email, password, age });
+    const user = await createUser({ name, email, password, role_id });
     
        const emailResponse = await sendEmail({
       to: email,
@@ -54,7 +54,7 @@ export const loginUser = async (req: Request, res: Response) => {
     }
 
     const token = generateToken(user);
-    return successResponse(res, 'Login successful', { token });
+    return successResponse(res, 'Login successful', { token,user },200);
   } catch (err) {
     return errorResponse(res, 'Login failed', 500, err instanceof Error ? err.message : err);
   }
