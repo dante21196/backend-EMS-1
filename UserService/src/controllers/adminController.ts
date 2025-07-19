@@ -4,6 +4,7 @@ import { generateToken, validatePassword } from '../services/authService';
 import { sendEmail } from '../services/resendEmailService';
 import { successResponse, errorResponse } from '../config/response';
 import { AuthRequest } from '../middlewares/auth';
+import { createCompany } from '../models/Company/service';
 
 // POST /register
 export const registerCompany = async (req: Request, res: Response) => {
@@ -13,19 +14,29 @@ export const registerCompany = async (req: Request, res: Response) => {
    const name = adminFirstName + ' ' + adminLastName;
    const email = adminEmail;
    const password = 'TEST!@#123'
+    if (!companyName || !plan) {
+      return errorResponse(res, 'Company name and plan are required', 400);
+    }
 
-    if (!name || !email || !password) {
-      return errorResponse(res, 'Name, email, and password are required', 400);
+    if (!name || !email ) {
+      return errorResponse(res, 'Name, email are required', 400);
     }
 
     const existing = await getUserByEmail(email);
     if (existing) {
       return errorResponse(res, 'Email already registered', 409);
     }
+    const company : any = await createCompany({
+      name: companyName,
+      website: adminEmail,
+      plan,
+      foundingYear: new Date().getFullYear(),
+      isActive: true,
+    }); 
+    const company_id = company._id.toString();
+    const user = await createUser({ company_id, name, email, password });
 
-    const user = await createUser({ name, email, password });
-    
-       const emailResponse = await sendEmail({
+    const emailResponse = await sendEmail({
       to: email,
       subject: `Welcome to Trackspace EMS, ${name}!`,
       html: `<h2>Greetings Dear ${name},</h2><p>Your account is ready to go. Set your password and begin tracking. Let's get tracking!</p>`,
