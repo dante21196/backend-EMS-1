@@ -10,7 +10,7 @@ export const registerUser = async (req: Request, res: Response) => {
   try {
       console.log("Request body register user:", req.body)
 
-    const { name, email, password, role_id } = req.body;
+    const { name, email, password, role_id } = req.body; 
 
     if (!name || !email || !password) {
       return errorResponse(res, 'Name, email, and password are required', 400);
