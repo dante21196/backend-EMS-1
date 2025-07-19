@@ -35,11 +35,63 @@ export const registerCompany = async (req: Request, res: Response) => {
     }); 
     const company_id = company._id.toString();
     const user = await createUser({ company_id, name, email, role_id: 1, password });
-
+    const setupLink = `http://localhost:3000/auth/set-password`;
     const emailResponse = await sendEmail({
       to: email,
       subject: `Welcome to Trackspace EMS, ${name}!`,
-      html: `<h2>Greetings Dear ${name},</h2><p>Your account is ready to go. Set your password and begin tracking. Let's get tracking!</p>`,
+      html: `<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Welcome to Trackspace</title>
+  </head>
+  <body style="font-family: Arial, sans-serif; color: #333; background-color: #f8f8f8; margin: 0; padding: 0;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f8f8f8; padding: 40px 0;">
+      <tr>
+        <td align="center">
+          <table width="600" cellpadding="0" cellspacing="0" style="background-color: #ffffff; border-radius: 8px; box-shadow: 0 0 5px rgba(0,0,0,0.05); padding: 40px;">
+            <tr>
+              <td align="center" style="padding-bottom: 20px;">
+                <h1 style="color: #4f46e5; margin: 0;">Welcome to Trackspace 🚀</h1>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h2 style="color: #222;">Hi ${name},</h2>
+                <p style="font-size: 16px; line-height: 1.6;">
+                  Your account is all set up and ready to go.
+                  <br /><br />
+                  Click the button below to set your password and start tracking like a boss.
+                </p>
+
+                <div style="margin: 30px 0; text-align: center;">
+                  <a href="${setupLink}" style="background-color: #4f46e5; color: #fff; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-size: 16px;">
+                    Set Your Password
+                  </a>
+                </div>
+
+                <p style="font-size: 14px; color: #555;">
+                  Need help getting started? Our team’s just a ping away.
+                  <br />
+                  Until then — stay sharp, stay tracked.
+                </p>
+
+                <p style="font-size: 14px; color: #777; margin-top: 40px;">
+                  — The Trackspace Team
+                </p>
+              </td>
+            </tr>
+          </table>
+
+          <p style="font-size: 12px; color: #aaa; margin-top: 20px;">
+            If you didn’t request this, you can safely ignore this email.
+          </p>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
+`,
     });
      if (!emailResponse.success) {
       console.warn('Email not sent, but user created.');
