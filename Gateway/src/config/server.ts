@@ -3,14 +3,22 @@
 import express, { Request, Response } from 'express';
 import { createProxyServer } from 'http-proxy';
 import { IncomingMessage, ServerResponse } from 'http';
+import cors from 'cors';
 
 const app = express();
-
+// CORS must go before any routes or proxy
+app.use(cors({
+  origin: '*', // Or specify your frontend origin like 'http://localhost:5173'
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  credentials: true
+}));
 const proxy = createProxyServer({});
 
 // Define the routing map
 const routes: Record<string, string> = {
   '/users': 'http://localhost:5001',
+    '/admin': 'http://localhost:5001',
+
   '/notes': 'http://localhost:5002',
 };
 app.use('/test',(req:Request,res : Response)=>{
@@ -21,7 +29,7 @@ app.use('/test',(req:Request,res : Response)=>{
 // Middleware to handle proxy routing
 app.use('/api', (req: Request, res: Response) => {
   console.log("Request path:", req.path);
-  console.log("Request body:", req.body);
+ // console.log("Request body:", req.body);
 
   const targetEntry = Object.entries(routes).find(([prefix]) =>
     req.path.startsWith(prefix)

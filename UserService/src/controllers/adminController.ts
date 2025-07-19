@@ -6,11 +6,13 @@ import { successResponse, errorResponse } from '../config/response';
 import { AuthRequest } from '../middlewares/auth';
 
 // POST /register
-export const registerUser = async (req: Request, res: Response) => {
+export const registerCompany = async (req: Request, res: Response) => {
   try {
       console.log("Request body register user:", req.body)
-
-    const { name, email, password, age } = req.body;
+    const {adminEmail,adminFirstName,adminLastName,companyName,plan,trialDays,message} = req.body
+   const name = adminFirstName + ' ' + adminLastName;
+   const email = adminEmail;
+   const password = 'TEST!@#123'
 
     if (!name || !email || !password) {
       return errorResponse(res, 'Name, email, and password are required', 400);
@@ -21,7 +23,7 @@ export const registerUser = async (req: Request, res: Response) => {
       return errorResponse(res, 'Email already registered', 409);
     }
 
-    const user = await createUser({ name, email, password, age });
+    const user = await createUser({ name, email, password });
     
        const emailResponse = await sendEmail({
       to: email,
@@ -39,29 +41,9 @@ export const registerUser = async (req: Request, res: Response) => {
   }
 };
 
-// POST /login
-export const loginUser = async (req: Request, res: Response) => {
-  try {
-    const { email, password } = req.body;
-
-    if (!email || !password) {
-      return errorResponse(res, 'Email and password are required', 400);
-    }
-
-    const user = await getUserByEmail(email);
-    if (!user || !(await validatePassword(password, user.password))) {
-      return errorResponse(res, 'Invalid credentials', 401);
-    }
-
-    const token = generateToken(user);
-    return successResponse(res, 'Login successful', { token });
-  } catch (err) {
-    return errorResponse(res, 'Login failed', 500, err instanceof Error ? err.message : err);
-  }
-};
 
 // GET /profile
-export const getProfile = async (req: AuthRequest, res: Response) => {
+export const getCompanyProfile = async (req: AuthRequest, res: Response) => {
   try {
     if (!req.user) {
       return errorResponse(res, 'Unauthorized', 401);

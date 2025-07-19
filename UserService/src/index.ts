@@ -1,8 +1,9 @@
 // src/index.ts
-import { startServer } from './config/server';
 import dotenv from 'dotenv';
 
 dotenv.config();
+import { startServer } from './config/server';
+
 const PORT = 5001;
 
 startServer()
