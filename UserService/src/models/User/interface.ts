@@ -1,7 +1,7 @@
-import { Document } from 'mongoose';
+import { Document, Schema } from 'mongoose';
 
 export interface IUser extends Document {
-  company_id?: string; // Optional field for company reference
+  company_id: Schema.Types.ObjectId; // Optional field for company reference
   name: string;
   email: string;
   password: string;

@@ -5,9 +5,11 @@ import { sendEmail } from '../services/resendEmailService';
 import { successResponse, errorResponse } from '../config/response';
 import { AuthRequest } from '../middlewares/auth';
 import { createCompany } from '../models/Company/service';
+import { RoleService } from '../models/Roles/service';
+import { PermissionService } from '../models/Permissions/service';
 
 // POST /register
-export const registerCompany = async (req: Request, res: Response) => {
+ const registerCompany = async (req: Request, res: Response) => {
   try {
       console.log("Request body register user:", req.body)
     const {adminEmail,adminFirstName,adminLastName,companyName,plan,trialDays,message} = req.body
@@ -106,7 +108,7 @@ export const registerCompany = async (req: Request, res: Response) => {
 
 
 // GET /profile
-export const getCompanyProfile = async (req: AuthRequest, res: Response) => {
+ const getCompanyProfile = async (req: AuthRequest, res: Response) => {
   try {
     if (!req.user) {
       return errorResponse(res, 'Unauthorized', 401);
@@ -119,7 +121,28 @@ export const getCompanyProfile = async (req: AuthRequest, res: Response) => {
   }
 };
 
-export const test = (req: Request, res: Response) => {
+ const test = (req: Request, res: Response) => {
        return successResponse(res, 'Test Route', 200);
  
 };
+
+// POST /permission
+ const createPermission = async (req: Request, res: Response) => {
+  try {
+    const permission = await PermissionService.create(req.body);
+    return successResponse(res, 'Permission created', permission, 201);
+  } catch (err) {
+    return errorResponse(res, 'Failed to create permission', 500, err instanceof Error ? err.message : err);
+  }
+};
+
+// POST /role
+ const createRole = async (req: Request, res: Response) => {
+  try {
+    const role = await RoleService.create(req.body);
+    return successResponse(res, 'Role created', role, 201);
+  } catch (err) {
+    return errorResponse(res, 'Failed to create role', 500, err instanceof Error ? err.message : err);
+  }
+};
+export  { registerCompany, getCompanyProfile, createPermission, createRole, test };
