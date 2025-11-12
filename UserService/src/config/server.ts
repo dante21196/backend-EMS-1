@@ -5,7 +5,7 @@ import userRoutes from '../routes/userRoutes';
 import adminRoutes from '../routes/adminRoutes'
 import { testReqBody } from '../middlewares/testReqBody';
 import cors from 'cors';
-
+import rolesAndPermissionsRoutes from '../routes/rolesAndPermissionsRoutes'
 
 
 export const startServer = async () => {
@@ -20,6 +20,7 @@ export const startServer = async () => {
   // Routes
   app.use('/users',testReqBody, userRoutes);
   app.use('/admin',adminRoutes)
+ app.use('/access-control',rolesAndPermissionsRoutes)
 
   app.use('/', (req, res) => {
     res.json({ message: `User Service! You hit ${req.originalUrl}` });
