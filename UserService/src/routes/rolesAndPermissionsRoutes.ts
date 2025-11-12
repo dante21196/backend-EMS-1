@@ -8,21 +8,24 @@ import {
   getPermissionById,
   updatePermission,
   deletePermission,
+  getRoles
 } from '../controllers/roleAndPermissionsController';
 import { authMiddleware } from '../middlewares/auth';
 
 const router = express.Router();
 
 // Role routes
+router.get('/roles', authMiddleware, getRoles);
+
 router.post('/roles', authMiddleware, createRole);
 router.get('/roles/:roleId', authMiddleware, getRoleById);
-router.put('/roles/:roleId', authMiddleware, updateRole);
-router.delete('/roles/:roleId', authMiddleware, deleteRole);
+router.post('/roles/:roleId', authMiddleware, updateRole);
+router.get('/roles/delete/:roleId', authMiddleware, deleteRole);
 
 // Permission routes
 router.post('/permissions', authMiddleware, createPermission);
 router.get('/permissions/:permissionId', authMiddleware, getPermissionById);
-router.put('/permissions/:permissionId', authMiddleware, updatePermission);
-router.delete('/permissions/:permissionId', authMiddleware, deletePermission);
+router.post('/permissions/:permissionId', authMiddleware, updatePermission);
+router.get('/permissions/delete/:permissionId', authMiddleware, deletePermission);
 
 export default router;

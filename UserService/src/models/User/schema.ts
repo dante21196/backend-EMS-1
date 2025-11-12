@@ -9,6 +9,7 @@ const UserSchema = new Schema<IUser>({
   role_id: { type: Number, default: 2 },
   isActive: { type: Boolean, default: true },
   createdAt: { type: Date, default: Date.now },
+  isDeleted : {type : Boolean,default : false}
 });
 
 export default mongoose.model<IUser>('User', UserSchema);

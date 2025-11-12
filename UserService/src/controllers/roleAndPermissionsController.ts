@@ -3,6 +3,17 @@ import { RoleService } from '../models/Roles/service';
 import { PermissionService } from '../models/Permissions/service';
 import { successResponse, errorResponse } from '../config/response';
 
+
+
+const getRoles = async (req: Request, res: Response) => {
+  try {
+    const role = await RoleService.findAll();
+    if (!role) return errorResponse(res, 'RoleS not found', 404);
+    return successResponse(res, 'Role fetched', role);
+  } catch (err) {
+    return errorResponse(res, 'Failed to fetch role', 500, err instanceof Error ? err.message : err);
+  }
+};
 // POST /roles - create new role
 const createRole = async (req: Request, res: Response) => {
   try {
@@ -23,6 +34,9 @@ const getRoleById = async (req: Request, res: Response) => {
     return errorResponse(res, 'Failed to fetch role', 500, err instanceof Error ? err.message : err);
   }
 };
+
+
+
 
 // PUT /roles/:roleId - update role
 const updateRole = async (req: Request, res: Response) => {
@@ -98,4 +112,5 @@ export {
   getPermissionById,
   updatePermission,
   deletePermission,
+  getRoles
 };

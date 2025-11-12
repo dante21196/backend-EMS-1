@@ -13,4 +13,7 @@ export const getCompanyByWebsite = async (website: string): Promise<ICompany | n
 export const getCompanyById = async (id: string): Promise<ICompany | null> => {
   return await Company.findById(id);
 };
+export const getAllCompanies = async (): Promise<ICompany[]> => {
+  return await Company.find({isDeleted:  false});
+};
 

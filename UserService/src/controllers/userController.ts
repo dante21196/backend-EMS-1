@@ -74,6 +74,9 @@ export const getProfile = async (req: AuthRequest, res: Response) => {
   }
 };
 
+
+
+
 export const test = (req: Request, res: Response) => {
        return successResponse(res, 'Test Route', 200);
  

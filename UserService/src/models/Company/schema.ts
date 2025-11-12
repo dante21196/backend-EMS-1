@@ -8,6 +8,7 @@ const CompanySchema = new Schema<ICompany>({
   foundingYear: { type: Number, default: 0 },
   isActive: { type: Boolean, default: true },
   createdOn: { type: Date, default: Date.now },
+  isDeleted : {type : Boolean,default : false}
 });
 
 export default mongoose.model<ICompany>('Company', CompanySchema);

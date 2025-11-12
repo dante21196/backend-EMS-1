@@ -8,4 +8,5 @@ export interface IUser extends Document {
   role_id: number;
   isActive: boolean;
   createdAt: Date;
+  isDeleted?:Boolean
 }

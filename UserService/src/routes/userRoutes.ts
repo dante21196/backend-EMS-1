@@ -10,6 +10,6 @@ const router = express.Router();
 router.post('/register',validateRegisterInput, registerUser);
 router.post('/login', loginUser);
 router.get('/profile', authMiddleware, getProfile);
-router.get('/',testReqBody,loginUser)
+
 
 export default router;

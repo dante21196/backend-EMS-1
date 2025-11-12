@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
-import { createUser, getUserByEmail } from '../models/User/service';
+import { createUser, getUserByEmail ,getAllUsers} from '../models/User/service';
 import { generateToken, validatePassword } from '../services/authService';
 import { sendEmail } from '../services/resendEmailService';
 import { successResponse, errorResponse } from '../config/response';
 import { AuthRequest } from '../middlewares/auth';
-import { createCompany } from '../models/Company/service';
+import { createCompany,getAllCompanies } from '../models/Company/service';
 import { RoleService } from '../models/Roles/service';
 import { PermissionService } from '../models/Permissions/service';
 
@@ -145,4 +145,24 @@ import { PermissionService } from '../models/Permissions/service';
     return errorResponse(res, 'Failed to create role', 500, err instanceof Error ? err.message : err);
   }
 };
-export  { registerCompany, getCompanyProfile, createPermission, createRole, test };
+
+ const getUsersAll = async (req: Request, res: Response) => {
+  try {
+    const users = await getAllUsers();
+    if (!users) return errorResponse(res, 'Users not found', 404);
+    return successResponse(res, 'Users fetched', users);
+  } catch (err) {
+    return errorResponse(res, 'Failed to fetch role', 500, err instanceof Error ? err.message : err);
+  }
+};
+const getCompaniesAll = async (req: Request, res: Response) => {
+  try {
+    const companies = await getAllCompanies();
+    if (!companies) return errorResponse(res, 'Companies not found', 404);
+    return successResponse(res, 'Companies fetched', companies);
+  } catch (err) {
+    return errorResponse(res, 'Failed to fetch role', 500, err instanceof Error ? err.message : err);
+  }
+};
+
+export  { registerCompany, getCompanyProfile, createPermission, createRole, test,getUsersAll,getCompaniesAll };

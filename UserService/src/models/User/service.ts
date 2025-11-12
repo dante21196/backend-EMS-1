@@ -11,3 +11,6 @@ export const createUser = async (userData: Partial<IUser>): Promise<IUser> => {
 export const getUserByEmail = async (email: string): Promise<IUser | null> => {
   return await User.findOne({ email });
 };
+export const getAllUsers = async (): Promise<IUser[]> => {
+  return await User.find({ isDeleted : false });
+};

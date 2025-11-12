@@ -6,7 +6,7 @@ import adminRoutes from '../routes/adminRoutes'
 import { testReqBody } from '../middlewares/testReqBody';
 import cors from 'cors';
 import rolesAndPermissionsRoutes from '../routes/rolesAndPermissionsRoutes'
-
+import subscriptionRoutes from '../routes/subscriptionRoutes'
 
 export const startServer = async () => {
   const app = express();
@@ -21,6 +21,7 @@ export const startServer = async () => {
   app.use('/users',testReqBody, userRoutes);
   app.use('/admin',adminRoutes)
  app.use('/access-control',rolesAndPermissionsRoutes)
+ app.use('/subscriptions',subscriptionRoutes)
 
   app.use('/', (req, res) => {
     res.json({ message: `User Service! You hit ${req.originalUrl}` });

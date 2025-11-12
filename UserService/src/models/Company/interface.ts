@@ -7,4 +7,5 @@ export interface ICompany extends Document {
   foundingYear ?: number;
   isActive: boolean;
   createdOn ?: Date;
+  isDeleted ?: boolean;
 }
